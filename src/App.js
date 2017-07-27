@@ -14,6 +14,7 @@ class App extends Component {
       next: '',
       previous: '',
       error: false,
+      count: 0,
     };
   }
 
@@ -51,6 +52,14 @@ class App extends Component {
     this.callAjax('https://swapi.co/api/people/');
   }
 
+  componentDidUpdate() {
+    if (!this.state.next) {
+      setTimeout(() => {
+        this.callAjax(this.state.previous);
+      }, 2000);
+    }
+  }
+
   renderPeople = () => {
     return this.state.people.map((person, index) => {
       return (<li key={index}>{person.name}</li>);
@@ -78,7 +87,7 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          <h2>Welcome to React: {this.state.count}</h2>
         </div>
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
